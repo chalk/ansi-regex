@@ -1,6 +1,6 @@
 {
   "name": "ansi-regex",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Regular expression for matching ANSI escape codes",
   "license": "MIT",
   "repository": "sindresorhus/ansi-regex",
