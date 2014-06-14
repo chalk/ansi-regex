@@ -39,7 +39,11 @@
     "text",
     "regex",
     "regexp",
-    "re"
+    "re",
+    "match",
+    "test",
+    "find",
+    "pattern"
   ],
   "devDependencies": {
     "mocha": "*"
