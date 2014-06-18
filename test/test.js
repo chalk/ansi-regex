@@ -163,16 +163,13 @@ describe("ANSI Matching", function () {
 
   it('should match reset;setfg;setbg;italics;strike;underline sequence in a string', function (done) {
     assert.equal(ansiRegex().test('\u001b[0;33;49;3;9;4mbar\u001b[0m'), true);
-    // console.log('\u001b[0;33;49;3;9;4mbar\u001b[0m'.match(ansiRegex()) );
     done();
   });
 
   it('should match a list of all supported codes', function (done) {
     for (var code in supportedCodes) {
       if(supportedCodes.hasOwnProperty(code)){
-        // assert.equal(("\u001b"+code).match( ansiRegex() )[0], "\u001b"+code );
         assert.equal(ansiRegex().test("\u001b"+code), true, supportedCodes[code][0]);
-        // console.log(code, ("\u001b"+code).match( ansiRegex() ) ) ;
       }
     }
 
