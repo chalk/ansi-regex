@@ -25,23 +25,25 @@ describe("ANSI Matching", function () {
 
     it('should match reset;setfg;setbg;italics;strike;underline sequence in a string', function (done) {
         assert.equal(ansiRegex().test('\u001b[0;33;49;3;9;4mbar\u001b[0m'), true);
+        assert.equal(('foo\u001b[0;33;49;3;9;4mbar').match(ansiRegex())[0], '\u001b[0;33;49;3;9;4m');
         done();
     });
 
     it('should match clear tabs sequence in a string', function (done) {
         assert.equal(ansiRegex().test('foo\u001b[0gbar'), true);
-        done();
-    });
-
-    it('should match clear line sequence in a string', function (done) {
-        assert.equal(ansiRegex().test('foo\u001b[0gbar'), true);
+        assert.equal(('foo\u001b[0gbar').match(ansiRegex())[0], '\u001b[0g');
         done();
     });
 
     it('should match clear line from cursor right in a string', function (done) {
         assert.equal(ansiRegex().test('foo\u001b[Kbar'), true);
-        console.log(ansiRegex().match('foo\u001b[Kbar')[0]);
-        assert.equal(ansiRegex().match('foo\u001b[Kbar')[0], '\u001b[K');
+        assert.equal(('foo\u001b[Kbar').match(ansiRegex())[0], '\u001b[K');
+        done();
+    });
+
+    it('should match clear screen in a string', function (done) {
+        assert.equal(ansiRegex().test('foo\u001b[2Jbar'), true);
+        assert.equal(('foo\u001b[2Jbar').match(ansiRegex())[0], '\u001b[2J');
         done();
     });
 

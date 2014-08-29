@@ -242,7 +242,7 @@ function identifySupportedCodes(){
 
         codeSupport = {
             code : code,
-            matches: ('\u001b'+code).match( ansiRegex({vt100: true}) ),
+            matches: ('\u001b'+code).match( ansiRegex() ),
             description: allCodes[code][0],
             // neighbourDelimitWorks: ('\u001b'+code+'a209ZELLO').match(ansiRegex({vt100: true}))[0] === ('\u001b'+code).match(ansiRegex({vt100: true}))[0],
         };
