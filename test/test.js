@@ -33,6 +33,18 @@ describe("ANSI Matching", function () {
         done();
     });
 
+    it('should match clear line sequence in a string', function (done) {
+        assert.equal(ansiRegex().test('foo\u001b[0gbar'), true);
+        done();
+    });
+
+    it('should match clear line from cursor right in a string', function (done) {
+        assert.equal(ansiRegex().test('foo\u001b[Kbar'), true);
+        console.log(ansiRegex().match('foo\u001b[Kbar')[0]);
+        assert.equal(ansiRegex().match('foo\u001b[Kbar')[0], '\u001b[K');
+        done();
+    });
+
 });
 
 
