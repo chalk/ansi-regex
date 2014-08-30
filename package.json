@@ -13,7 +13,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "view-supported": "node test/viewCodes.js"
   },
   "files": [
     "index.js"
