@@ -20,31 +20,31 @@ exports.vt52Codes = {
 
 // from http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
 exports.ansiCompatible = {
-	'[176A':['Cursor up Pn lines'],
-	'[176B':['Cursor down Pn lines'],
-	'[176C':['Cursor forward Pn characters (right)'],
-	'[176D':['Cursor backward Pn characters (left)'],
-	'[176;176H':['Direct cursor addressing, where Pl is line#, Pc is column#'],
-	'[176;176f':['Direct cursor addressing, where Pl is line#, Pc is column#'],
+	'[176A': ['Cursor up Pn lines'],
+	'[176B': ['Cursor down Pn lines'],
+	'[176C': ['Cursor forward Pn characters (right)'],
+	'[176D': ['Cursor backward Pn characters (left)'],
+	'[176;176H': ['Direct cursor addressing, where Pl is line#, Pc is column#'],
+	'[176;176f': ['Direct cursor addressing, where Pl is line#, Pc is column#'],
 
-	'7':['Save cursor and attributes'],
-	'8':['Restore cursor and attributes'],
+	'7': ['Save cursor and attributes'],
+	'8': ['Restore cursor and attributes'],
 
-	'#3':['Change this line to double-height top half'],
-	'#4':['Change this line to double-height bottom half'],
-	'#5':['Change this line to single-width single-height'],
-	'#6':['Change this line to double-width single-height'],
+	'#3': ['Change this line to double-height top half'],
+	'#4': ['Change this line to double-height bottom half'],
+	'#5': ['Change this line to single-width single-height'],
+	'#6': ['Change this line to double-width single-height'],
 
 	'[176;176;176;176;176;176;176m': ['Text Styles'],
 	'[176;176;176;176;176;176;176q': ['Programmable LEDs'],
 
-	'[K':['Erase from cursor to end of line'],
-	'[0K':['Same'],
-	'[1K':['Erase from beginning of line to cursor'],
-	'[2K':['Erase line containing cursor'],
-	'[J':['Erase from cursor to end of screen'],
-	'[0J':['Same'],
-	'[2J':['Erase entire screen'],
+	'[K': ['Erase from cursor to end of line'],
+	'[0K': ['Same'],
+	'[1K': ['Erase from beginning of line to cursor'],
+	'[2K': ['Erase line containing cursor'],
+	'[J': ['Erase from cursor to end of screen'],
+	'[0J': ['Same'],
+	'[2J': ['Erase entire screen'],
 
 	'(A': ['United Kingdom (UK) (Character Set G0)'],
 	')A': ['United Kingdom (UK) (Character Set G1)'],
@@ -72,7 +72,6 @@ exports.ansiCompatible = {
 	'c': ['Causes power-up reset routine to be executed'],
 	'#8': ['Fill screen with "E"'],
 	'[2;176y': ['Invoke Test(s), where Ps is a decimal computed by adding the numbers of the desired tests to be executed']
-
 };
 
 // from http://ascii-table.com/ansi-escape-sequences-vt-100.php
@@ -169,10 +168,10 @@ exports.commonCodes = {
 	'[c': ['Identify what terminal type', 'DA'],
 	'[0c': ['Identify what terminal type (another)', 'DA'],
 	'c': ['Reset terminal to initial state', 'RIS'],
-	'[2;1y': [ 'Confidence power up test', 'DECTST'],
-	'[2;2y': [ 'Confidence loopback test', 'DECTST'],
-	'[2;9y': [ 'Repeat power up test', 'DECTST'],
-	'[2;10y': [ 'Repeat loopback test', 'DECTST'],
+	'[2;1y': ['Confidence power up test', 'DECTST'],
+	'[2;2y': ['Confidence loopback test', 'DECTST'],
+	'[2;9y': ['Repeat power up test', 'DECTST'],
+	'[2;10y': ['Repeat loopback test', 'DECTST'],
 	'[0q': ['Turn off all four leds', 'DECLL0'],
 	'[1q': ['Turn on LED #1', 'DECLL1'],
 	'[2q': ['Turn on LED #2', 'DECLL2'],
