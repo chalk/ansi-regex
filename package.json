@@ -18,7 +18,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha test/test.js",
+    "test": "xo && mocha test/test.js",
     "view-supported": "node test/viewCodes.js"
   },
   "files": [
@@ -52,6 +52,17 @@
     "pattern"
   ],
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "xo": "*"
+  },
+  "xo": {
+    "envs": [
+      "node",
+      "mocha"
+    ],
+    "rules": {
+      "guard-for-in": 0,
+      "no-loop-func": 0
+    }
   }
 }

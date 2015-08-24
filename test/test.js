@@ -46,7 +46,7 @@ describe('extended tests', function () {
 		describe(codeSet, function () {
 			for (var code in ansiCodes[codeSet]) {
 				var codeInfo = ansiCodes[codeSet][code];
-				var skip = !!code.match(/[0-9]$/);
+				var skip = /[0-9]$/.test(code);
 				var skipText = skip ? '[SKIP] ' : '';
 				var ecode = '\u001b' + code;
 
