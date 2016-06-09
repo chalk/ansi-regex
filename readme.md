@@ -13,7 +13,7 @@ $ npm install --save ansi-regex
 ## Usage
 
 ```js
-var ansiRegex = require('ansi-regex');
+const ansiRegex = require('ansi-regex');
 
 ansiRegex().test('\u001b[4mcake\u001b[0m');
 //=> true

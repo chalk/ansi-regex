@@ -18,8 +18,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "xo && mocha test/test.js",
-    "view-supported": "node test/viewCodes.js"
+    "test": "xo && ava --verbose",
+    "view-supported": "node fixtures/view-codes.js"
   },
   "files": [
     "index.js"
@@ -52,14 +52,10 @@
     "pattern"
   ],
   "devDependencies": {
-    "mocha": "*",
+    "ava": "*",
     "xo": "*"
   },
   "xo": {
-    "envs": [
-      "node",
-      "mocha"
-    ],
     "rules": {
       "guard-for-in": 0,
       "no-loop-func": 0
