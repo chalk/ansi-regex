@@ -1,6 +1,6 @@
 'use strict';
 var ansiRegex = require('../');
-var ansiCodes = require('./ansiCodes');
+var ansiCodes = require('./ansi-codes');
 var allCodes = {};
 var supported = [];
 var unsupported = [];
