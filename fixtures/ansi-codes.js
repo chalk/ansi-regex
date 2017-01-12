@@ -45,7 +45,7 @@ exports.ansiCompatible = {
 	'[J': ['Erase from cursor to end of screen'],
 	'[0J': ['Same'],
 	'[2J': ['Erase entire screen'],
-	'[P' : ['Delete charecter'],
+	'[P' : ['Delete character'],
 	'[0P': ['Same'],
 	'[2P': ['Delete 2 characters'],
 
