@@ -46,7 +46,7 @@ exports.ansiCompatible = {
 	'[0J': ['Same'],
 	'[2J': ['Erase entire screen'],
 	'[P' : ['Delete character'],
-	'[0P': ['Same'],
+	'[0P': ['Delete character (0P)'],
 	'[2P': ['Delete 2 characters'],
 
 	'(A': ['United Kingdom (UK) (Character Set G0)'],
