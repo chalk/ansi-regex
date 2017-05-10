@@ -212,3 +212,20 @@ exports.otherCode = new Map([
 	['3n', ['Response: terminal is not OK', 'DSR']],
 	['6n', ['Get cursor position', 'DSR']]
 ]);
+
+// urxvt escapes
+exports.urxvt = new Map([
+	['[5~', ['URxvt.keysym.Prior']],
+	['[6~', ['URxvt.keysym.Next']],
+	['[7~', ['URxvt.keysym.Home']],
+	['[8~', ['URxvt.keysym.End']],
+	['[A', ['URxvt.keysym.Up']],
+	['[B', ['URxvt.keysym.Down']],
+	['[C', ['URxvt.keysym.Right']],
+	['[D', ['URxvt.keysym.Left']],
+	['[3;5;5t', ['URxvt.keysym.C-M-q']],
+	['[3;5;606t', ['URxvt.keysym.C-M-y']],
+	['[3;1605;5t', ['URxvt.keysym.C-M-e']],
+	['[3;1605;606t', ['URxvt.keysym.C-M-c']],
+	[']710;9x15bold\x07', ['URxvt.keysym.font']]
+]);
