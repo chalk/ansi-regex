@@ -1,27 +1,28 @@
 'use strict';
-var ansiRegex = require('../');
-var ansiCodes = require('./ansi-codes');
-var allCodes = {};
-var supported = [];
-var unsupported = [];
+const ansiRegex = require('..');
+const ansiCodes = require('./ansi-codes');
+
+const allCodes = {};
+const supported = [];
+const unsupported = [];
 
 function addCodesToTest(codes) {
-	for (var code in codes) {
+	for (const code in codes) {
 		allCodes[code] = codes[code];
 	}
 }
 
 function identifySupportedCodes() {
-	var codeSupport = {};
+	let codeSupport = {};
 
-	for (var code in allCodes) {
+	for (const code in allCodes) {
 		codeSupport = {
-			code: code,
-			matches: ('\u001b' + code).match(ansiRegex()),
+			code,
+			matches: `\u001B${code}`.match(ansiRegex()),
 			description: allCodes[code][0]
 		};
 
-		if (codeSupport.matches !== null && codeSupport.matches[0] === '\u001b' + code) {
+		if (codeSupport.matches !== null && codeSupport.matches[0] === `\u001B${code}`) {
 			supported.push(codeSupport);
 		} else {
 			unsupported.push(codeSupport);
@@ -30,21 +31,21 @@ function identifySupportedCodes() {
 }
 
 function displaySupport() {
-	process.stdout.write('\u001b[32m');
+	process.stdout.write('\u001B[32m');
 
 	console.log('SUPPORTED');
-	for (var i = 0; i < supported.length; i++) {
-		console.log(supported[i]);
+	for (const el of supported) {
+		console.log(el);
 	}
 
-	process.stdout.write('\u001b[31m');
+	process.stdout.write('\u001B[31m');
 	console.log('UNSUPPORTED');
 
-	for (var j = 0; j < unsupported.length; j++) {
-		console.log(unsupported[j]);
+	for (const el of unsupported) {
+		console.log(el);
 	}
 
-	process.stdout.write('\u001b[0m');
+	process.stdout.write('\u001B[0m');
 }
 
 addCodesToTest(ansiCodes.vt52Codes);

@@ -1,24 +1,24 @@
 'use strict';
 
-// from http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
+// From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
 exports.vt52Codes = {
-	'A': ['Cursor up'],
-	'B': ['Cursor down'],
-	'C': ['Cursor right'],
-	'D': ['Cursor left'],
-	'H': ['Cursor to home'],
-	'I': ['Reverse line feed'],
-	'J': ['Erase to end of screen'],
-	'K': ['Erase to end of line'],
-	'Z': ['Identify'],
+	A: ['Cursor up'],
+	B: ['Cursor down'],
+	C: ['Cursor right'],
+	D: ['Cursor left'],
+	H: ['Cursor to home'],
+	I: ['Reverse line feed'],
+	J: ['Erase to end of screen'],
+	K: ['Erase to end of line'],
+	Z: ['Identify'],
 	'=': ['Enter alternate keypad mode'],
 	'>': ['Exit alternate keypad mode'],
-	'1': ['Graphics processor on'],
-	'2': ['Graphics processor off'],
+	1: ['Graphics processor on'],
+	2: ['Graphics processor off'],
 	'<': ['Enter ANSI mode']
 };
 
-// from http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
+// From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
 exports.ansiCompatible = {
 	'[176A': ['Cursor up Pn lines'],
 	'[176B': ['Cursor down Pn lines'],
@@ -27,8 +27,8 @@ exports.ansiCompatible = {
 	'[176;176H': ['Direct cursor addressing, where Pl is line#, Pc is column#'],
 	'[176;176f': ['Direct cursor addressing, where Pl is line#, Pc is column#'],
 
-	'7': ['Save cursor and attributes'],
-	'8': ['Restore cursor and attributes'],
+	7: ['Save cursor and attributes'],
+	8: ['Restore cursor and attributes'],
 
 	'#3': ['Change this line to double-height top half'],
 	'#4': ['Change this line to double-height bottom half'],
@@ -45,7 +45,7 @@ exports.ansiCompatible = {
 	'[J': ['Erase from cursor to end of screen'],
 	'[0J': ['Same'],
 	'[2J': ['Erase entire screen'],
-	'[P' : ['Delete character'],
+	'[P': ['Delete character'],
 	'[0P': ['Delete character (0P)'],
 	'[2P': ['Delete 2 characters'],
 
@@ -60,7 +60,7 @@ exports.ansiCompatible = {
 	'(2': ['Alternative graphic ROM (Character Set G0)'],
 	')2': ['Alternative graphic ROM (Character Set G1)'],
 
-	'H': ['Set tab at current column'],
+	H: ['Set tab at current column'],
 	'[g': ['Clear tab at current column'],
 	'[0g': ['Same'],
 	'[3g': ['Clear all tabs'],
@@ -72,12 +72,12 @@ exports.ansiCompatible = {
 	'[0c': ['(response; teminal not Ok)'],
 	'[?1;176c': ['response; where Ps is option present:'],
 
-	'c': ['Causes power-up reset routine to be executed'],
+	c: ['Causes power-up reset routine to be executed'],
 	'#8': ['Fill screen with "E"'],
 	'[2;176y': ['Invoke Test(s), where Ps is a decimal computed by adding the numbers of the desired tests to be executed']
 };
 
-// from http://ascii-table.com/ansi-escape-sequences-vt-100.php
+// From http://ascii-table.com/ansi-escape-sequences-vt-100.php
 exports.commonCodes = {
 	'[176A': ['Move cursor up n lines', 'CUU'],
 	'[176B': ['Move cursor down n lines', 'CUD'],
@@ -110,8 +110,8 @@ exports.commonCodes = {
 	'[?8l': ['Reset auto-repeat mode', 'DECARM'],
 	'[?9l': ['Reset interlacing mode', 'DECINLM'],
 
-	'N': ['Set single shift 2', 'SS2'],
-	'O': ['Set single shift 3', 'SS3'],
+	N: ['Set single shift 2', 'SS2'],
+	O: ['Set single shift 3', 'SS3'],
 
 	'[m': ['Turn off character attributes', 'SGR0'],
 	'[0m': ['Turn off character attributes', 'SGR0'],
@@ -151,10 +151,10 @@ exports.commonCodes = {
 	'[;H': ['Move cursor to upper left corner', 'cursorhome'],
 	'[f': ['Move cursor to upper left corner', 'hvhome'],
 	'[;f': ['Move cursor to upper left corner', 'hvhome'],
-	'M': ['Move/scroll window down one line', 'RI'],
-	'E': ['Move to next line', 'NEL'],
+	M: ['Move/scroll window down one line', 'RI'],
+	E: ['Move to next line', 'NEL'],
 
-	'H': ['Set a tab at the current column', 'HTS'],
+	H: ['Set a tab at the current column', 'HTS'],
 	'[g': ['Clear a tab at the current column', 'TBC'],
 	'[0g': ['Clear a tab at the current column', 'TBC'],
 	'[3g': ['Clear all tabs', 'TBC'],
@@ -170,7 +170,7 @@ exports.commonCodes = {
 
 	'[c': ['Identify what terminal type', 'DA'],
 	'[0c': ['Identify what terminal type (another)', 'DA'],
-	'c': ['Reset terminal to initial state', 'RIS'],
+	c: ['Reset terminal to initial state', 'RIS'],
 	'[2;1y': ['Confidence power up test', 'DECTST'],
 	'[2;2y': ['Confidence loopback test', 'DECTST'],
 	'[2;9y': ['Repeat power up test', 'DECTST'],
@@ -182,10 +182,10 @@ exports.commonCodes = {
 	'[4q': ['Turn on LED #4', 'DECLL4']
 };
 
-// from http://ascii-table.com/ansi-escape-sequences-vt-100.php
+// From http://ascii-table.com/ansi-escape-sequences-vt-100.php
 exports.otherCode = {
-	'7': ['Save cursor position and attributes', 'DECSC'],
-	'8': ['Restore cursor position and attributes', 'DECSC'],
+	7: ['Save cursor position and attributes', 'DECSC'],
+	8: ['Restore cursor position and attributes', 'DECSC'],
 
 	'=': ['Set alternate keypad mode', 'DECKPAM'],
 	'>': ['Set numeric keypad mode', 'DECKPNM'],
