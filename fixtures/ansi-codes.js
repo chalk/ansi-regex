@@ -227,5 +227,5 @@ exports.urxvt = new Map([
 	['[3;5;606t', ['URxvt.keysym.C-M-y']],
 	['[3;1605;5t', ['URxvt.keysym.C-M-e']],
 	['[3;1605;606t', ['URxvt.keysym.C-M-c']],
-	[']710;9x15bold\x07', ['URxvt.keysym.font']]
+	[']710;9x15bold\u0007', ['URxvt.keysym.font']]
 ]);
