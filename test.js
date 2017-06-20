@@ -38,9 +38,10 @@ test('match clear screen in a string', t => {
 });
 
 // Testing against extended codes (excluding codes ending in 0-9)
-for (const codeSet in ansiCodes) {
-	for (const code in ansiCodes[codeSet]) {
-		const codeInfo = ansiCodes[codeSet][code];
+for (const codeSet of Object.keys(ansiCodes)) {
+	for (const el of ansiCodes[codeSet]) {
+		const code = el[0];
+		const codeInfo = el[1];
 		const skip = /\d$/.test(code);
 		const skipText = skip ? '[SKIP] ' : '';
 		const ecode = `\u001B${code}`;

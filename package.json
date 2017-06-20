@@ -49,10 +49,5 @@
 	"devDependencies": {
 		"ava": "*",
 		"xo": "*"
-	},
-	"xo": {
-		"rules": {
-			"guard-for-in": 0
-		}
 	}
 }
