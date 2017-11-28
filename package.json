@@ -17,8 +17,10 @@
     "view-supported": "node fixtures/view-codes.js"
   },
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
+  "typings": "index.d.ts",
   "keywords": [
     "ansi",
     "styles",
