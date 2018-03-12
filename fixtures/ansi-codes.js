@@ -10,6 +10,8 @@ exports.vt52Codes = new Map([
 	['I', ['Reverse line feed']],
 	['J', ['Erase to end of screen']],
 	['K', ['Erase to end of line']],
+	['S', ['Scroll up']],
+	['T', ['Scroll down']],
 	['Z', ['Identify']],
 	['=', ['Enter alternate keypad mode']],
 	['>', ['Exit alternate keypad mode']],
