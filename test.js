@@ -37,6 +37,10 @@ test('match clear screen in a string', t => {
 	t.is('foo\u001B[2Jbar'.match(m())[0], '\u001B[2J');
 });
 
+test('match only first', t => {
+	t.is('foo\u001B[4mcake\u001B[0m'.match(m(true)).length, 1);
+});
+
 test.failing('match "change icon name and window title" in string', t => {
 	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(m())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
