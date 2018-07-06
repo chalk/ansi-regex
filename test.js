@@ -38,7 +38,7 @@ test('match clear screen in a string', t => {
 });
 
 test('match only first', t => {
-	t.is('foo\u001B[4mcake\u001B[0m'.match(m(true)).length, 1);
+	t.is('foo\u001B[4mcake\u001B[0m'.match(m({onlyFirst: true})).length, 1);
 });
 
 test.failing('match "change icon name and window title" in string', t => {
