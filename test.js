@@ -1,48 +1,48 @@
 import test from 'ava';
 import ansiCodes from './fixtures/ansi-codes';
-import m from '.';
+import ansiRegex from '.';
 
 const consumptionChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890-=[]{};\':"./>?,<\\|';
 
 // Testing against codes found at: http://ascii-table.com/ansi-escape-sequences-vt-100.php
 test('match ansi code in a string', t => {
-	t.regex('foo\u001B[4mcake\u001B[0m', m());
-	t.regex('\u001B[4mcake\u001B[0m', m());
-	t.regex('foo\u001B[4mcake\u001B[0m', m());
-	t.regex('\u001B[0m\u001B[4m\u001B[42m\u001B[31mfoo\u001B[39m\u001B[49m\u001B[24mfoo\u001B[0m', m());
-	t.regex('foo\u001B[mfoo', m());
+	t.regex('foo\u001B[4mcake\u001B[0m', ansiRegex());
+	t.regex('\u001B[4mcake\u001B[0m', ansiRegex());
+	t.regex('foo\u001B[4mcake\u001B[0m', ansiRegex());
+	t.regex('\u001B[0m\u001B[4m\u001B[42m\u001B[31mfoo\u001B[39m\u001B[49m\u001B[24mfoo\u001B[0m', ansiRegex());
+	t.regex('foo\u001B[mfoo', ansiRegex());
 });
 
 test('match ansi code from ls command', t => {
-	t.regex('\u001B[00;38;5;244m\u001B[m\u001B[00;38;5;33mfoo\u001B[0m', m());
+	t.regex('\u001B[00;38;5;244m\u001B[m\u001B[00;38;5;33mfoo\u001B[0m', ansiRegex());
 });
 
 test('match reset;setfg;setbg;italics;strike;underline sequence in a string', t => {
-	t.regex('\u001B[0;33;49;3;9;4mbar\u001B[0m', m());
-	t.is('foo\u001B[0;33;49;3;9;4mbar'.match(m())[0], '\u001B[0;33;49;3;9;4m');
+	t.regex('\u001B[0;33;49;3;9;4mbar\u001B[0m', ansiRegex());
+	t.is('foo\u001B[0;33;49;3;9;4mbar'.match(ansiRegex())[0], '\u001B[0;33;49;3;9;4m');
 });
 
 test('match clear tabs sequence in a string', t => {
-	t.regex('foo\u001B[0gbar', m());
-	t.is('foo\u001B[0gbar'.match(m())[0], '\u001B[0g');
+	t.regex('foo\u001B[0gbar', ansiRegex());
+	t.is('foo\u001B[0gbar'.match(ansiRegex())[0], '\u001B[0g');
 });
 
 test('match clear line from cursor right in a string', t => {
-	t.regex('foo\u001B[Kbar', m());
-	t.is('foo\u001B[Kbar'.match(m())[0], '\u001B[K');
+	t.regex('foo\u001B[Kbar', ansiRegex());
+	t.is('foo\u001B[Kbar'.match(ansiRegex())[0], '\u001B[K');
 });
 
 test('match clear screen in a string', t => {
-	t.regex('foo\u001B[2Jbar', m());
-	t.is('foo\u001B[2Jbar'.match(m())[0], '\u001B[2J');
+	t.regex('foo\u001B[2Jbar', ansiRegex());
+	t.is('foo\u001B[2Jbar'.match(ansiRegex())[0], '\u001B[2J');
 });
 
 test('match only first', t => {
-	t.is('foo\u001B[4mcake\u001B[0m'.match(m({onlyFirst: true})).length, 1);
+	t.is('foo\u001B[4mcake\u001B[0m'.match(ansiRegex({onlyFirst: true})).length, 1);
 });
 
 test.failing('match "change icon name and window title" in string', t => {
-	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(m())[0], '\u001B]0;sg@tota:~/git/\u0007');
+	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(ansiRegex())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
 
 // Testing against extended codes (excluding codes ending in 0-9)
@@ -61,9 +61,9 @@ for (const codeSet of Object.keys(ansiCodes)) {
 			}
 
 			const string = `hel${ecode}lo`;
-			t.regex(string, m());
-			t.is(string.match(m())[0], ecode);
-			t.is(string.replace(m(), ''), 'hello');
+			t.regex(string, ansiRegex());
+			t.is(string.match(ansiRegex())[0], ecode);
+			t.is(string.replace(ansiRegex(), ''), 'hello');
 		});
 
 		test(`${skipText}${code} should not overconsume`, t => {
@@ -74,9 +74,9 @@ for (const codeSet of Object.keys(ansiCodes)) {
 
 			for (const c of consumptionChars) {
 				const string = ecode + c;
-				t.regex(string, m());
-				t.is(string.match(m())[0], ecode);
-				t.is(string.replace(m(), ''), c);
+				t.regex(string, ansiRegex());
+				t.is(string.match(ansiRegex())[0], ecode);
+				t.is(string.replace(ansiRegex(), ''), c);
 			}
 		});
 	}

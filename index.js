@@ -1,11 +1,9 @@
 'use strict';
 
-const defaultOptions = {
-	onlyFirst: false
-};
-
 module.exports = options => {
-	options = Object.assign({}, defaultOptions, options);
+	options = Object.assign({
+		onlyFirst: false
+	}, options);
 
 	const pattern = [
 		'[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\\u0007)',

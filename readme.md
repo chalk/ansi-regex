@@ -42,7 +42,7 @@ Returns a regex for matching ANSI escape codes.
 Type: `boolean`<br>
 Default: `false` *(Matches any ANSI escape codes in a string)*
 
-Match only the first one.<br>
+Match only the first ANSI escape.
 
 
 ## FAQ

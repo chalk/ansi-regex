@@ -7,7 +7,7 @@ const supported = [];
 const unsupported = [];
 
 function addCodesToTest(codes) {
-	for (const code in codes) {
+	for (const code of Object.keys(codes)) {
 		allCodes[code] = codes[code];
 	}
 }
@@ -15,7 +15,7 @@ function addCodesToTest(codes) {
 function identifySupportedCodes() {
 	let codeSupport = {};
 
-	for (const code in allCodes) {
+	for (const code of Object.keys(allCodes)) {
 		codeSupport = {
 			code,
 			matches: `\u001B${code}`.match(ansiRegex()),
