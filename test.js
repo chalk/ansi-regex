@@ -41,7 +41,20 @@ test('match only first', t => {
 	t.is('foo\u001B[4mcake\u001B[0m'.match(ansiRegex({onlyFirst: true})).length, 1);
 });
 
-test.failing('match "change icon name and window title" in string', t => {
+test('match terminal link', t => {
+	t.regex('\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007click\u001B]8;;\u0007', ansiRegex());
+	t.regex('\u001B]8;;mailto:no-replay@mail.com\u0007mail\u001B]8;;\u0007', ansiRegex());
+	t.deepEqual('\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007click\u001B]8;;\u0007'.match(ansiRegex()), [
+		'\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007',
+		'\u001B]8;;\u0007'
+	]);
+	t.deepEqual('\u001B]8;;mailto:no-reply@mail.com\u0007mail-me\u001B]8;;\u0007'.match(ansiRegex()), [
+		'\u001B]8;;mailto:no-reply@mail.com\u0007',
+		'\u001B]8;;\u0007'
+	]);
+});
+
+test('match "change icon name and window title" in string', t => {
 	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(ansiRegex())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
 
