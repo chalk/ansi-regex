@@ -40,6 +40,9 @@ ansiRegex().test('cake');
 
 '\u001B[4mcake\u001B[0m'.match(ansiRegex({onlyFirst: true}));
 //=> ['\u001B[4m']
+
+'\u001B]8;;https://github.com\u0007click\u001B]8;;\u0007'.match(ansiRegex());
+//=> ['\u001B]8;;https://github.com\u0007', '\u001B]8;;\u0007']
 ```
 
 
