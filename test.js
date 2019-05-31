@@ -2,7 +2,7 @@ import test from 'ava';
 import ansiCodes from './fixtures/ansi-codes';
 import ansiRegex from '.';
 
-const consumptionChars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890-=[]{};\':"./>?,<\\|';
+const consumptionCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890-=[]{};\':"./>?,<\\|';
 
 // Testing against codes found at: http://ascii-table.com/ansi-escape-sequences-vt-100.php
 test('match ansi code in a string', t => {
@@ -67,7 +67,7 @@ for (const codeSet of Object.keys(ansiCodes)) {
 		const skipText = skip ? '[SKIP] ' : '';
 		const ecode = `\u001B${code}`;
 
-		test(`${skipText}${code} → ${codeInfo[0]}`, t => {
+		test(`${codeSet} - ${skipText}${code} → ${codeInfo[0]}`, t => {
 			if (skip) {
 				t.pass();
 				return;
@@ -79,13 +79,13 @@ for (const codeSet of Object.keys(ansiCodes)) {
 			t.is(string.replace(ansiRegex(), ''), 'hello');
 		});
 
-		test(`${skipText}${code} should not overconsume`, t => {
+		test(`${codeSet} - ${skipText}${code} should not overconsume`, t => {
 			if (skip) {
 				t.pass();
 				return;
 			}
 
-			for (const c of consumptionChars) {
+			for (const c of consumptionCharacters) {
 				const string = ecode + c;
 				t.regex(string, ansiRegex());
 				t.is(string.match(ansiRegex())[0], ecode);
