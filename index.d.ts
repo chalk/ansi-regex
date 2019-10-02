@@ -1,9 +1,33 @@
-// TypeScript Version: 3.5.2
+// TypeScript Version: 3.6.3
 
 interface Options {
   onlyFirst: boolean;
 }
 
-declare function ansiRegex<T>(options?: Options | T): RegExp;
+/**
+Regular expression for matching ANSI escape codes
+
+@example
+```
+import ansiRegex from 'ansi-regex';
+
+ansiRegex().test('\u001B[4mcake\u001B[0m');
+//=> true
+
+ansiRegex().test('cake');
+//=> false
+
+'\u001B[4mcake\u001B[0m'.match(ansiRegex());
+//=> ['\u001B[4m', '\u001B[0m']
+
+'\u001B[4mcake\u001B[0m'.match(ansiRegex({onlyFirst: true}));
+//=> ['\u001B[4m']
+
+'\u001B]8;;https://github.com\u0007click\u001B]8;;\u0007'.match(ansiRegex());
+//=> ['\u001B]8;;https://github.com\u0007', '\u001B]8;;\u0007']
+```
+*/
+
+declare function ansiRegex(options?: Options): RegExp;
 
 export = ansiRegex;
