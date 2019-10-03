@@ -1,6 +1,11 @@
 // TypeScript Version: 3.6.3
 
 interface Options {
+  /**
+    Match only the first ANSI escape.
+
+		@default false
+  */
   onlyFirst: boolean;
 }
 
