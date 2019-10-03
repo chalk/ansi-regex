@@ -4,7 +4,7 @@ interface Options {
   /**
     Match only the first ANSI escape.
 
-		@default false
+     @default false
   */
   onlyFirst: boolean;
 }
