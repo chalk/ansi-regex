@@ -1,5 +1,5 @@
 import {expectType} from 'tsd';
-import ansiRegex from '.';
+import ansiRegex = require('.');
 
 expectType<RegExp>(ansiRegex());
 expectType<RegExp>(ansiRegex({onlyFirst: true}));

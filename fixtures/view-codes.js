@@ -1,25 +1,25 @@
 'use strict';
-const ansiRegex = require('..');
 const ansiCodes = require('./ansi-codes');
+const ansiRegex = require('..');
 
 const allCodes = {};
 const supported = [];
 const unsupported = [];
 
 function addCodesToTest(codes) {
-	for (const code of Object.keys(codes)) {
-		allCodes[code] = codes[code];
+	for (const [key, value] of Object.entries(codes)) {
+		allCodes[key] = value;
 	}
 }
 
 function identifySupportedCodes() {
 	let codeSupport = {};
 
-	for (const code of Object.keys(allCodes)) {
+	for (const [code, value] of Object.keys(allCodes)) {
 		codeSupport = {
 			code,
 			matches: `\u001B${code}`.match(ansiRegex()),
-			description: allCodes[code][0]
+			description: value[0]
 		};
 
 		if (codeSupport.matches !== null && codeSupport.matches[0] === `\u001B${code}`) {
@@ -34,15 +34,15 @@ function displaySupport() {
 	process.stdout.write('\u001B[32m');
 
 	console.log('SUPPORTED');
-	for (const el of supported) {
-		console.log(el);
+	for (const element of supported) {
+		console.log(element);
 	}
 
 	process.stdout.write('\u001B[31m');
 	console.log('UNSUPPORTED');
 
-	for (const el of unsupported) {
-		console.log(el);
+	for (const element of unsupported) {
+		console.log(element);
 	}
 
 	process.stdout.write('\u001B[0m');

@@ -34,11 +34,13 @@ ansiRegex().test('cake');
 
 ## API
 
-### ansiRegex([options])
+### ansiRegex(options?)
 
 Returns a regex for matching ANSI escape codes.
 
 #### options
+
+Type: `object`
 
 ##### onlyFirst
 
