@@ -1,5 +1,3 @@
-// TypeScript Version: 3.6.3
-
 declare namespace ansiRegex {
 	interface Options {
 		/**
@@ -12,11 +10,11 @@ declare namespace ansiRegex {
 }
 
 /**
-Regular expression for matching ANSI escape codes
+Regular expression for matching ANSI escape codes.
 
 @example
 ```
-import ansiRegex from 'ansi-regex';
+import ansiRegex = require('ansi-regex');
 
 ansiRegex().test('\u001B[4mcake\u001B[0m');
 //=> true
