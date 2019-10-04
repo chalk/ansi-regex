@@ -1,12 +1,14 @@
 // TypeScript Version: 3.6.3
 
-interface Options {
-  /**
-    Match only the first ANSI escape.
+declare namespace ansiRegex {
+	interface Options {
+		/**
+			Match only the first ANSI escape.
 
-     @default false
-  */
-  onlyFirst: boolean;
+			@default false
+		*/
+		onlyFirst: boolean;
+  	}
 }
 
 /**
@@ -32,7 +34,6 @@ ansiRegex().test('cake');
 //=> ['\u001B]8;;https://github.com\u0007', '\u001B]8;;\u0007']
 ```
 */
-
-declare function ansiRegex(options?: Options): RegExp;
+declare function ansiRegex(options?: ansiRegex.Options): RegExp;
 
 export = ansiRegex;
