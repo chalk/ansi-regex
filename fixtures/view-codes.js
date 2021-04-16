@@ -1,6 +1,5 @@
-'use strict';
-const ansiCodes = require('./ansi-codes');
-const ansiRegex = require('..');
+import ansiCodes from './ansi-codes.js';
+import ansiRegex from '../index.js';
 
 const allCodes = {};
 const supported = [];

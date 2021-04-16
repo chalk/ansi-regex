@@ -1,6 +1,6 @@
 import test from 'ava';
-import ansiCodes from './fixtures/ansi-codes';
-import ansiRegex from '.';
+import * as ansiCodes from './fixtures/ansi-codes.js';
+import ansiRegex from './index.js';
 
 const consumptionCharacters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+1234567890-=[]{};\':"./>?,<\\|';
 
@@ -60,9 +60,7 @@ test('match "change icon name and window title" in string', t => {
 
 // Testing against extended codes (excluding codes ending in 0-9)
 for (const codeSet of Object.keys(ansiCodes)) {
-	for (const el of ansiCodes[codeSet]) {
-		const code = el[0];
-		const codeInfo = el[1];
+	for (const [code, codeInfo] of ansiCodes[codeSet]) {
 		const skip = /\d$/.test(code);
 		const skipText = skip ? '[SKIP] ' : '';
 		const ecode = `\u001B${code}`;

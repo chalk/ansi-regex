@@ -1,7 +1,5 @@
-'use strict';
-
 // From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
-exports.vt52Codes = new Map([
+export const vt52Codes = new Map([
 	['A', ['Cursor up']],
 	['B', ['Cursor down']],
 	['C', ['Cursor right']],
@@ -21,7 +19,7 @@ exports.vt52Codes = new Map([
 ]);
 
 // From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
-exports.ansiCompatible = new Map([
+export const ansiCompatible = new Map([
 	['[176A', ['Cursor up Pn lines']],
 	['[176B', ['Cursor down Pn lines']],
 	['[176C', ['Cursor forward Pn characters (right)']],
@@ -80,7 +78,7 @@ exports.ansiCompatible = new Map([
 ]);
 
 // From http://ascii-table.com/ansi-escape-sequences-vt-100.php
-exports.commonCodes = new Map([
+export const commonCodes = new Map([
 	['[176A', ['Move cursor up n lines', 'CUU']],
 	['[176B', ['Move cursor down n lines', 'CUD']],
 	['[176C', ['Move cursor right n lines', 'CUF']],
@@ -185,7 +183,7 @@ exports.commonCodes = new Map([
 ]);
 
 // From http://ascii-table.com/ansi-escape-sequences-vt-100.php
-exports.otherCode = new Map([
+export const otherCode = new Map([
 	['7', ['Save cursor position and attributes', 'DECSC']],
 	['8', ['Restore cursor position and attributes', 'DECSC']],
 
@@ -216,7 +214,7 @@ exports.otherCode = new Map([
 ]);
 
 // `urxvt` escapes
-exports.urxvt = new Map([
+export const urxvt = new Map([
 	['[5~', ['URxvt.keysym.Prior']],
 	['[6~', ['URxvt.keysym.Next']],
 	['[7~', ['URxvt.keysym.Home']],
