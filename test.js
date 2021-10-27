@@ -1,4 +1,5 @@
 import test from 'ava';
+import ansiEscapes from 'ansi-escapes';
 import * as ansiCodes from './fixtures/ansi-codes.js';
 import ansiRegex from './index.js';
 
@@ -91,4 +92,29 @@ for (const codeSet of Object.keys(ansiCodes)) {
 			}
 		});
 	}
+}
+
+const escapeCodeFunctionArgs = [1, 2];
+const escapeCodeIgnoresList = new Set(['beep', 'image', 'iTerm']);
+const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArgs[0]]])
+
+for (const key of Object.keys(ansiEscapes)) {
+	if (escapeCodeIgnoresList.has(key)) {
+		continue;
+	}
+
+	const escapeCode = ansiEscapes[key];
+
+	const escapeCodeValue = typeof escapeCode === 'function'
+		? escapeCode(...escapeCodeFunctionArgs)
+		: escapeCode;
+
+	test(`ansi-escapes ${key}`, (t) => {
+		for (const c of consumptionCharacters) {
+			const string = escapeCodeValue + c;
+			const result = (escapeCodeResultMap.get(key) || '') + c
+
+			t.is(string.replace(ansiRegex(), ''), result);
+		}
+	});
 }
