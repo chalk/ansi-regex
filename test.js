@@ -95,8 +95,8 @@ for (const codeSet of Object.keys(ansiCodes)) {
 }
 
 const escapeCodeFunctionArgs = [1, 2];
-const escapeCodeIgnoresList = new Set(['beep', 'image', 'iTerm']);
-const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArgs[0]]])
+const escapeCodeIgnoresList = new Set(['default', 'beep', 'image', 'iTerm']);
+const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArgs[0]]]);
 
 for (const key of Object.keys(ansiEscapes)) {
 	if (escapeCodeIgnoresList.has(key)) {
@@ -105,14 +105,14 @@ for (const key of Object.keys(ansiEscapes)) {
 
 	const escapeCode = ansiEscapes[key];
 
-	const escapeCodeValue = typeof escapeCode === 'function'
-		? escapeCode(...escapeCodeFunctionArgs)
-		: escapeCode;
+	const escapeCodeValue = typeof escapeCode === 'function' ?
+		escapeCode(...escapeCodeFunctionArgs) :
+		escapeCode;
 
-	test(`ansi-escapes ${key}`, (t) => {
+	test(`ansi-escapes ${key}`, t => {
 		for (const c of consumptionCharacters) {
 			const string = escapeCodeValue + c;
-			const result = (escapeCodeResultMap.get(key) || '') + c
+			const result = (escapeCodeResultMap.get(key) || '') + c;
 
 			t.is(string.replace(ansiRegex(), ''), result);
 		}
