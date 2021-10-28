@@ -15,10 +15,12 @@ export const vt52Codes = new Map([
 	['>', ['Exit alternate keypad mode']],
 	['1', ['Graphics processor on']],
 	['2', ['Graphics processor off']],
-	['<', ['Enter ANSI mode']]
+	['<', ['Enter ANSI mode']],
+	['s', ['Cursor save']],
+	['u', ['Cursor restore']]
 ]);
 
-// From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
+// From https://espterm.github.io/docs/VT100%20escape%20codes.html
 export const ansiCompatible = new Map([
 	['[176A', ['Cursor up Pn lines']],
 	['[176B', ['Cursor down Pn lines']],
