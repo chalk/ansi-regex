@@ -20,7 +20,7 @@ export const vt52Codes = new Map([
 	['u', ['Cursor restore']]
 ]);
 
-// From // From https://espterm.github.io/docs/VT100%20escape%20codes.html
+// From https://espterm.github.io/docs/VT100%20escape%20codes.html
 export const ansiCompatible = new Map([
 	['[176A', ['Cursor up Pn lines']],
 	['[176B', ['Cursor down Pn lines']],
