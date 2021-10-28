@@ -95,7 +95,7 @@ for (const codeSet of Object.keys(ansiCodes)) {
 }
 
 const escapeCodeFunctionArgs = [1, 2];
-const escapeCodeIgnoresList = new Set(['default', 'beep', 'image', 'iTerm']);
+const escapeCodeIgnoresList = new Set(['beep', 'image', 'iTerm']);
 const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArgs[0]]]);
 
 for (const key of Object.keys(ansiEscapes)) {
