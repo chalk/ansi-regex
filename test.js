@@ -110,9 +110,9 @@ for (const key of Object.keys(ansiEscapes)) {
 		escapeCode;
 
 	test(`ansi-escapes ${key}`, t => {
-		for (const c of consumptionCharacters) {
-			const string = escapeCodeValue + c;
-			const result = (escapeCodeResultMap.get(key) || '') + c;
+		for (const character of consumptionCharacters) {
+			const string = escapeCodeValue + character;
+			const result = (escapeCodeResultMap.get(key) || '') + character;
 
 			t.is(string.replace(ansiRegex(), ''), result);
 		}
