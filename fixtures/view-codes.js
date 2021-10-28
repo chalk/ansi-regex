@@ -1,5 +1,6 @@
-import ansiCodes from './ansi-codes.js';
+import process from 'node:process';
 import ansiRegex from '../index.js';
+import ansiCodes from './ansi-codes.js';
 
 const allCodes = {};
 const supported = [];
@@ -18,7 +19,7 @@ function identifySupportedCodes() {
 		codeSupport = {
 			code,
 			matches: `\u001B${code}`.match(ansiRegex()),
-			description: value[0]
+			description: value[0],
 		};
 
 		if (codeSupport.matches !== null && codeSupport.matches[0] === `\u001B${code}`) {

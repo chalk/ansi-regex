@@ -12,6 +12,8 @@
 	},
 	"type": "module",
 	"exports": "./index.js",
+	"types": "./index.d.ts",
+	"sideEffects": false,
 	"engines": {
 		"node": ">=12"
 	},
@@ -53,7 +55,7 @@
 	"devDependencies": {
 		"ansi-escapes": "^5.0.0",
 		"ava": "^3.15.0",
-		"tsd": "^0.14.0",
-		"xo": "^0.38.2"
+		"tsd": "^0.21.0",
+		"xo": "^0.54.2"
 	}
 }

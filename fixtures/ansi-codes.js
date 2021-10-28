@@ -17,7 +17,7 @@ export const vt52Codes = new Map([
 	['2', ['Graphics processor off']],
 	['<', ['Enter ANSI mode']],
 	['s', ['Cursor save']],
-	['u', ['Cursor restore']]
+	['u', ['Cursor restore']],
 ]);
 
 // From https://espterm.github.io/docs/VT100%20escape%20codes.html
@@ -76,7 +76,7 @@ export const ansiCompatible = new Map([
 
 	['c', ['Causes power-up reset routine to be executed']],
 	['#8', ['Fill screen with "E"']],
-	['[2;176y', ['Invoke Test(s), where Ps is a decimal computed by adding the numbers of the desired tests to be executed']]
+	['[2;176y', ['Invoke Test(s), where Ps is a decimal computed by adding the numbers of the desired tests to be executed']],
 ]);
 
 // From http://ascii-table.com/ansi-escape-sequences-vt-100.php
@@ -181,7 +181,7 @@ export const commonCodes = new Map([
 	['[1q', ['Turn on LED #1', 'DECLL1']],
 	['[2q', ['Turn on LED #2', 'DECLL2']],
 	['[3q', ['Turn on LED #3', 'DECLL3']],
-	['[4q', ['Turn on LED #4', 'DECLL4']]
+	['[4q', ['Turn on LED #4', 'DECLL4']],
 ]);
 
 // From http://ascii-table.com/ansi-escape-sequences-vt-100.php
@@ -212,7 +212,7 @@ export const otherCode = new Map([
 	['5n', ['Device status report', 'DSR']],
 	['0n', ['Response: terminal is OK', 'DSR']],
 	['3n', ['Response: terminal is not OK', 'DSR']],
-	['6n', ['Get cursor position', 'DSR']]
+	['6n', ['Get cursor position', 'DSR']],
 ]);
 
 // `urxvt` escapes
@@ -229,5 +229,5 @@ export const urxvt = new Map([
 	['[3;5;606t', ['URxvt.keysym.C-M-y']],
 	['[3;1605;5t', ['URxvt.keysym.C-M-e']],
 	['[3;1605;606t', ['URxvt.keysym.C-M-c']],
-	[']710;9x15bold\u0007', ['URxvt.keysym.font']]
+	[']710;9x15bold\u0007', ['URxvt.keysym.font']],
 ]);
