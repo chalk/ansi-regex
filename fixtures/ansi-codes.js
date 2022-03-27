@@ -213,7 +213,7 @@ exports.otherCode = new Map([
 	['6n', ['Get cursor position', 'DSR']]
 ]);
 
-// urxvt escapes
+// URXVT escapes
 exports.urxvt = new Map([
 	['[5~', ['URxvt.keysym.Prior']],
 	['[6~', ['URxvt.keysym.Next']],

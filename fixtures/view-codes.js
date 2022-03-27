@@ -1,3 +1,4 @@
+/* eslint-disable guard-for-in */
 'use strict';
 const ansiRegex = require('..');
 const ansiCodes = require('./ansi-codes');
