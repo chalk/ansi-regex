@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: lts/iron
       - run: npm install
-      - run: npm build
+      - run: npm run build
 
       - uses: actions/setup-node@v2
         with:
