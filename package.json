@@ -11,16 +11,34 @@
 		"url": "https://sindresorhus.com"
 	},
 	"type": "module",
-	"exports": "./index.js",
+	"source": "./index.ts",
+	"main": "./index.cjs",
+	"module": "./index.js",
+	"types": "./index.d.ts",
+	"exports": {
+		".": {
+			"default": "./index.cjs",
+			"node": "./index.cjs",
+			"require": "./index.cjs",
+			"import": "./index.js",
+			"types": "./index.d.ts"
+		},
+		"./package.json": "./package.json"
+	},
 	"engines": {
 		"node": ">=12"
 	},
 	"scripts": {
+		"build": "lbundle",
+		"pretest": "lbundle",
 		"test": "xo && ava && tsd",
 		"view-supported": "node fixtures/view-codes.js"
 	},
 	"files": [
 		"index.js",
+		"index.js.map",
+		"index.cjs",
+		"index.cjs.map",
 		"index.d.ts"
 	],
 	"keywords": [
@@ -53,6 +71,7 @@
 	"devDependencies": {
 		"ansi-escapes": "^5.0.0",
 		"ava": "^3.15.0",
+		"lbundle": "^1.1.2",
 		"tsd": "^0.14.0",
 		"xo": "^0.38.2"
 	}

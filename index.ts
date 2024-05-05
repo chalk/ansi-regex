@@ -1,11 +1,12 @@
 export interface Options {
-	/**
-	Match only the first ANSI escape.
+    /**
+    Match only the first ANSI escape.
 
-	@default false
-	*/
-	readonly onlyFirst: boolean;
+    @default false
+    */
+    readonly onlyFirst?: boolean;
 }
+
 
 /**
 Regular expression for matching ANSI escape codes.
@@ -30,4 +31,11 @@ ansiRegex().test('cake');
 //=> ['\u001B]8;;https://github.com\u0007', '\u001B]8;;\u0007']
 ```
 */
-export default function ansiRegex(options?: Options): RegExp;
+export default function ansiRegex({ onlyFirst = false }: Options = {}) {
+    const pattern = [
+        '[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)',
+        '(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))'
+    ].join('|');
+
+    return new RegExp(pattern, onlyFirst ? undefined : 'g');
+}

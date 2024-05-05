@@ -1,2 +1,7 @@
 node_modules
 yarn.lock
+
+# bundle
+index.cjs*
+index.js*
+index.d.ts
