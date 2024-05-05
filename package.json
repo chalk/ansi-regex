@@ -30,7 +30,8 @@
 	},
 	"scripts": {
 		"build": "lbundle",
-		"test": "xo && ava && tsd",
+		"lint": "xo ./fixtures/* ./index.test-d.ts ./index.ts ./test.js",
+		"test": "npm run lint && ava && tsd",
 		"view-supported": "node fixtures/view-codes.js"
 	},
 	"files": [
