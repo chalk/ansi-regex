@@ -16,6 +16,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: lts/iron
       - run: npm install
+      - run: npm build
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
       - run: npm test

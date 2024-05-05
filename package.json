@@ -30,7 +30,6 @@
 	},
 	"scripts": {
 		"build": "lbundle",
-		"pretest": "lbundle",
 		"test": "xo && ava && tsd",
 		"view-supported": "node fixtures/view-codes.js"
 	},
