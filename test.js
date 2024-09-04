@@ -43,16 +43,18 @@ test('match only first', t => {
 });
 
 test('match terminal link', t => {
-	t.regex('\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007click\u001B]8;;\u0007', ansiRegex());
-	t.regex('\u001B]8;;mailto:no-replay@mail.com\u0007mail\u001B]8;;\u0007', ansiRegex());
-	t.deepEqual('\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007click\u001B]8;;\u0007'.match(ansiRegex()), [
-		'\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le\u0007',
-		'\u001B]8;;\u0007'
-	]);
-	t.deepEqual('\u001B]8;;mailto:no-reply@mail.com\u0007mail-me\u001B]8;;\u0007'.match(ansiRegex()), [
-		'\u001B]8;;mailto:no-reply@mail.com\u0007',
-		'\u001B]8;;\u0007'
-	]);
+	for (const ST of ['\u0007', '\u001B\u005C', '\u009C']) {
+		t.regex(`\u000B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le${ST}click\u001B]8;;${ST}`, ansiRegex());
+		t.regex(`\u001B]8;;mailto:no-replay@mail.com${ST}mail\u001B]8;;${ST}`, ansiRegex());
+		t.deepEqual(`\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le${ST}click\u001B]8;;${ST}`.match(ansiRegex()), [
+			`\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le${ST}`,
+			`\u001B]8;;${ST}`
+		]);
+		t.deepEqual(`\u001B]8;;mailto:no-reply@mail.com${ST}mail-me\u001B]8;;${ST}`.match(ansiRegex()), [
+			`\u001B]8;;mailto:no-reply@mail.com${ST}`,
+			`\u001B]8;;${ST}`
+		]);
+	}
 });
 
 test('match "change icon name and window title" in string', t => {
