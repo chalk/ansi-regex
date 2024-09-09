@@ -48,11 +48,11 @@ test('match terminal link', t => {
 		t.regex(`\u001B]8;;mailto:no-replay@mail.com${ST}mail\u001B]8;;${ST}`, ansiRegex());
 		t.deepEqual(`\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le${ST}click\u001B]8;;${ST}`.match(ansiRegex()), [
 			`\u001B]8;k=v;https://example-a.com/?a_b=1&c=2#tit%20le${ST}`,
-			`\u001B]8;;${ST}`
+			`\u001B]8;;${ST}`,
 		]);
 		t.deepEqual(`\u001B]8;;mailto:no-reply@mail.com${ST}mail-me\u001B]8;;${ST}`.match(ansiRegex()), [
 			`\u001B]8;;mailto:no-reply@mail.com${ST}`,
-			`\u001B]8;;${ST}`
+			`\u001B]8;;${ST}`,
 		]);
 	}
 });
@@ -62,14 +62,14 @@ test('match "change icon name and window title" in string', t => {
 });
 
 // Testing against extended codes (excluding codes ending in 0-9)
-for (const codeSet of Object.keys(ansiCodes)) {
-	for (const [code, codeInfo] of ansiCodes[codeSet]) {
-		const skip = /\d$/.test(code);
-		const skipText = skip ? '[SKIP] ' : '';
+for (const [codeSetKey, codeSetValue] of Object.entries(ansiCodes)) {
+	for (const [code, codeInfo] of codeSetValue) {
+		const shouldSkip = /\d$/.test(code);
+		const skipText = shouldSkip ? '[SKIP] ' : '';
 		const ecode = `\u001B${code}`;
 
-		test(`${codeSet} - ${skipText}${code} → ${codeInfo[0]}`, t => {
-			if (skip) {
+		test(`${codeSetKey} - ${skipText}${code} → ${codeInfo[0]}`, t => {
+			if (shouldSkip) {
 				t.pass();
 				return;
 			}
@@ -80,36 +80,34 @@ for (const codeSet of Object.keys(ansiCodes)) {
 			t.is(string.replace(ansiRegex(), ''), 'hello');
 		});
 
-		test(`${codeSet} - ${skipText}${code} should not overconsume`, t => {
-			if (skip) {
+		test(`${codeSetKey} - ${skipText}${code} should not overconsume`, t => {
+			if (shouldSkip) {
 				t.pass();
 				return;
 			}
 
-			for (const c of consumptionCharacters) {
-				const string = ecode + c;
+			for (const character of consumptionCharacters) {
+				const string = ecode + character;
 				t.regex(string, ansiRegex());
 				t.is(string.match(ansiRegex())[0], ecode);
-				t.is(string.replace(ansiRegex(), ''), c);
+				t.is(string.replace(ansiRegex(), ''), character);
 			}
 		});
 	}
 }
 
-const escapeCodeFunctionArgs = [1, 2];
+const escapeCodeFunctionArguments = [1, 2];
 const escapeCodeIgnoresList = new Set(['beep', 'image', 'iTerm']);
-const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArgs[0]]]);
+const escapeCodeResultMap = new Map([['link', escapeCodeFunctionArguments[0]]]);
 
-for (const key of Object.keys(ansiEscapes)) {
+for (const [key, escapeCode] of Object.entries(ansiEscapes)) {
 	if (escapeCodeIgnoresList.has(key)) {
 		continue;
 	}
 
-	const escapeCode = ansiEscapes[key];
-
-	const escapeCodeValue = typeof escapeCode === 'function' ?
-		escapeCode(...escapeCodeFunctionArgs) :
-		escapeCode;
+	const escapeCodeValue = typeof escapeCode === 'function'
+		? escapeCode(...escapeCodeFunctionArguments)
+		: escapeCode;
 
 	test(`ansi-escapes ${key}`, t => {
 		for (const character of consumptionCharacters) {
