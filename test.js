@@ -61,6 +61,11 @@ test('match "change icon name and window title" in string', t => {
 	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(ansiRegex())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
 
+test('match colon separated sequence arguments', t => {
+	t.regex('\u001B[38:2:68:68:68:48:2:0:0:0m', ansiRegex());
+	t.is('\u001B[38:2:68:68:68:48:2:0:0:0m'.match(ansiRegex())[0], '\u001B[38:2:68:68:68:48:2:0:0:0m');
+});
+
 // Testing against extended codes (excluding codes ending in 0-9)
 for (const [codeSetKey, codeSetValue] of Object.entries(ansiCodes)) {
 	for (const [code, codeInfo] of codeSetValue) {
