@@ -57,6 +57,16 @@ test('match terminal link', t => {
 	}
 });
 
+test('match terminal link with plus in URL', t => {
+	for (const ST of ['\u0007', '\u001B\u005C', '\u009C']) {
+		const seqOpen = `\u001B]8;;https://www.example.com/?q=hello+world${ST}`;
+		const seqClose = `\u001B]8;;${ST}`;
+		const value = `${seqOpen}hello${seqClose}`;
+		t.deepEqual(value.match(ansiRegex()), [seqOpen, seqClose]);
+		t.is(value.replace(ansiRegex(), ''), 'hello');
+	}
+});
+
 test('match "change icon name and window title" in string', t => {
 	t.is('\u001B]0;sg@tota:~/git/\u0007\u001B[01;32m[sg@tota\u001B[01;37m misc-tests\u001B[01;32m]$'.match(ansiRegex())[0], '\u001B]0;sg@tota:~/git/\u0007');
 });
