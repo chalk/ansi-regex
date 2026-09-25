@@ -1,4 +1,4 @@
-// From http://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
+// From https://www.umich.edu/~archive/apple2/misc/programmers/vt100.codes.txt
 export const vt52Codes = new Map([
 	['A', ['Cursor up']],
 	['B', ['Cursor down']],
@@ -229,5 +229,5 @@ export const urxvt = new Map([
 	['[3;5;606t', ['URxvt.keysym.C-M-y']],
 	['[3;1605;5t', ['URxvt.keysym.C-M-e']],
 	['[3;1605;606t', ['URxvt.keysym.C-M-c']],
-	[']710;9x15bold\u0007', ['URxvt.keysym.font']],
+	[']710;9x15bold\u{0007}', ['URxvt.keysym.font']],
 ]);

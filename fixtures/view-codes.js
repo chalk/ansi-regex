@@ -18,11 +18,11 @@ function identifySupportedCodes() {
 	for (const [code, value] of Object.keys(allCodes)) {
 		codeSupport = {
 			code,
-			matches: `\u001B${code}`.match(ansiRegex()),
+			matches: `\u{001B}${code}`.match(ansiRegex()),
 			description: value[0],
 		};
 
-		if (codeSupport.matches !== null && codeSupport.matches[0] === `\u001B${code}`) {
+		if (codeSupport.matches !== null && codeSupport.matches[0] === `\u{001B}${code}`) {
 			supported.push(codeSupport);
 		} else {
 			unsupported.push(codeSupport);
@@ -31,21 +31,21 @@ function identifySupportedCodes() {
 }
 
 function displaySupport() {
-	process.stdout.write('\u001B[32m');
+	process.stdout.write('\u{001B}[32m');
 
 	console.log('SUPPORTED');
 	for (const element of supported) {
 		console.log(element);
 	}
 
-	process.stdout.write('\u001B[31m');
+	process.stdout.write('\u{001B}[31m');
 	console.log('UNSUPPORTED');
 
 	for (const element of unsupported) {
 		console.log(element);
 	}
 
-	process.stdout.write('\u001B[0m');
+	process.stdout.write('\u{001B}[0m');
 }
 
 addCodesToTest(ansiCodes.vt52Codes);
