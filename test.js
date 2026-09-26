@@ -261,3 +261,32 @@ for (const [key, escapeCode] of Object.entries(ansiEscapes)) {
 		}
 	});
 }
+
+// A sequence must be stripped whole or left alone. A partial strip is the worst outcome: it leaves the
+// final byte behind as visible text, so `ESC [ 5 d` became a bare `d` rather than disappearing or staying put.
+const ESCAPE = String.fromCodePoint(27);
+
+const partialStrips = [];
+
+for (let finalByte = 0x40; finalByte <= 0x7E; finalByte++) {
+	const sequence = `${ESCAPE}[5${String.fromCodePoint(finalByte)}`;
+	const output = sequence.replaceAll(ansiRegex(), '');
+	if (output !== '' && output !== sequence) {
+		partialStrips.push(`0x${finalByte.toString(16)}: ${JSON.stringify(output)}`);
+	}
+}
+
+test('never partially strips a sequence', () => {
+	assert.deepEqual(partialStrips, []);
+});
+
+test('never partially strips a long parameter run', () => {
+	const sequence = `${ESCAPE}[12345678m`;
+	const output = sequence.replaceAll(ansiRegex(), '');
+	assert.ok(output === '' || output === sequence, `partially stripped to ${JSON.stringify(output)}`);
+});
+
+test('strips a sequence it recognises', () => {
+	assert.equal(`${ESCAPE}[31m`.replaceAll(ansiRegex(), ''), '');
+	assert.equal(`${ESCAPE}[38;2;255;131;0m`.replaceAll(ansiRegex(), ''), '');
+});

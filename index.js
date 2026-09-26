@@ -7,7 +7,10 @@ export default function ansiRegex({onlyFirst = false} = {}) {
 	const osc = String.raw`(?:(?:\u001B\]|\u009D)[^\u0007\u001B\u009C\u009D]*${ST})`;
 
 	// CSI and related: ESC/C1, optional intermediates, optional params (supports ; and :) then final byte
-	const csi = String.raw`[\u001B\u009B][[\]()#;?]*(?:\d{1,4}(?:[;:]\d{0,4})*)?[\dA-PR-TZcf-nq-uy=><~]`;
+	// The final byte class is deliberately narrow, so that ESC followed by an arbitrary character is not read as a sequence. It must
+	// not include the parameter digits though: when the real final byte is outside the class the engine backtracks and takes the last
+	// parameter digit as the final byte instead, leaving the real one behind as visible text. `ESC [ 5 d` stripped to a bare `d`.
+	const csi = String.raw`[\u001B\u009B][[\]()#;?]*(?:\d{1,4}(?:[;:]\d{0,4})*)?[A-PR-TZcf-nq-uy=><~]`;
 
 	const pattern = `${osc}|${csi}`;
 
