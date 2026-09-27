@@ -182,6 +182,25 @@ test('match OSC sequences containing non-terminator control characters', t => {
 	}
 });
 
+test('match OSC sequences using the C1 introducer', t => {
+	for (const terminator of ['\u0007', '\u001B\u005C', '\u009C']) {
+		const sequence = `\u009D0;title${terminator}`;
+		t.deepEqual(`${sequence}hello`.match(ansiRegex()), [sequence]);
+		t.is(`${sequence}hello`.replace(ansiRegex(), ''), 'hello');
+	}
+});
+
+test('an unterminated C1 OSC sequence does not consume a later one', t => {
+	const inputString = '\u009D0;unterminated text \u009D8;;https://example.com\u0007link';
+	t.deepEqual(inputString.match(ansiRegex()), ['\u009D8;;https://example.com\u0007']);
+});
+
+test('an OSC sequence does not consume a later sequence after an unexpected C1 introducer', t => {
+	const inputString = '\u001B]:payload\u009D8;;https://example.com\u0007';
+	t.deepEqual(inputString.match(ansiRegex()), ['\u009D8;;https://example.com\u0007']);
+	t.is(inputString.replace(ansiRegex(), ''), '\u001B]:payload');
+});
+
 // Testing against extended codes (excluding codes ending in 0-9)
 for (const [codeSetKey, codeSetValue] of Object.entries(ansiCodes)) {
 	for (const [code, codeInfo] of codeSetValue) {
