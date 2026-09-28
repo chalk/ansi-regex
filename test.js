@@ -1,5 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import process from 'node:process';
 import ansiEscapes from 'ansi-escapes';
 import * as ansiCodes from './fixtures/ansi-codes.js';
 import ansiRegex from './index.js';
@@ -265,6 +267,8 @@ for (const [key, escapeCode] of Object.entries(ansiEscapes)) {
 // A sequence must be stripped whole or left alone. A partial strip is the worst outcome: it leaves the
 // final byte behind as visible text, so `ESC [ 5 d` became a bare `d` rather than disappearing or staying put.
 const ESCAPE = String.fromCodePoint(27);
+const BEL = String.fromCodePoint(7);
+const STRING_TERMINATOR = ESCAPE + String.fromCodePoint(92);
 
 const partialStrips = [];
 
@@ -280,6 +284,54 @@ test('never partially strips a sequence', () => {
 	assert.deepEqual(partialStrips, []);
 });
 
+test('never partially strips a sequence with a private parameter marker', () => {
+	// `= < >` are final bytes in the two byte VT52 escapes but parameter bytes in a CSI, so the device
+	// attributes reply is the case where reading one as a final byte leaves the rest behind as text.
+	for (const code of [`${ESCAPE}[>0;276;0c`, `${ESCAPE}[>0c`, `${ESCAPE}[>c`, `${ESCAPE}[<u`, `${ESCAPE}[=c`, `${String.fromCodePoint(0x9B)}>0;276;0c`]) {
+		assert.equal((code + 'visible').replaceAll(ansiRegex(), ''), 'visible', JSON.stringify(code));
+	}
+
+	// The VT52 escapes the marker comes from are still matched on their own and do not overconsume.
+	for (const code of [`${ESCAPE}<`, `${ESCAPE}=`, `${ESCAPE}>`]) {
+		assert.deepEqual((code + 'visible').match(ansiRegex()), [code]);
+	}
+});
+
+test('match private-parameter CSI sequences', () => {
+	for (const introducer of ['\u{001B}[', '\u{009B}']) {
+		for (const parameters of ['<35;59;1M', '>0;276;0c', '>c', '=5h', '>4;2m', '>1u', '<0c', '>0h']) {
+			const sequence = introducer + parameters;
+			const input = `before${sequence}after${sequence}`;
+			assert.deepEqual(input.match(ansiRegex()), [sequence, sequence]);
+			assert.equal(input.replace(ansiRegex(), ''), 'beforeafter');
+			assert.equal(input.match(ansiRegex({onlyFirst: true}))[0], sequence);
+			assert.equal(input.replace(ansiRegex({onlyFirst: true}), ''), `beforeafter${sequence}`);
+		}
+	}
+});
+
+test('preserves numeric text after bare ESC sequences', () => {
+	const samples = [
+		['\u{001B}[?1h\u{001B}=123 tests passed', '123 tests passed'],
+		['\u{001B}[?1l\u{001B}>42 files', '42 files'],
+		['\u{001B}<10 items', '10 items'],
+	];
+
+	for (const [input, expected] of samples) {
+		assert.equal(input.replace(ansiRegex(), ''), expected);
+	}
+});
+
+test('handles adversarial inputs without excessive backtracking', () => {
+	// A subprocess timeout can interrupt a synchronous regex that blocks the event loop.
+	const result = spawnSync(process.execPath, ['fixtures/redos.js'], {
+		cwd: import.meta.dirname,
+		timeout: 10_000,
+		encoding: 'utf8',
+	});
+	assert.equal(result.status, 0, result.error?.message ?? result.stderr);
+});
+
 test('never partially strips a long parameter run', () => {
 	const sequence = `${ESCAPE}[12345678m`;
 	const output = sequence.replaceAll(ansiRegex(), '');
@@ -289,4 +341,67 @@ test('never partially strips a long parameter run', () => {
 test('strips a sequence it recognises', () => {
 	assert.equal(`${ESCAPE}[31m`.replaceAll(ansiRegex(), ''), '');
 	assert.equal(`${ESCAPE}[38;2;255;131;0m`.replaceAll(ansiRegex(), ''), '');
+});
+
+// A string with no escape sequence in it must survive stripping byte for byte.
+test('leaves text without an escape sequence untouched', () => {
+	const samples = [
+		'',
+		'plain text',
+		'brackets [like] and (parens) and {braces}',
+		'a#b?c;d:e',
+		'camelCaseValue and kebab-case-value and snake_case_value',
+		`emoji: ${String.fromCodePoint(0x1_F6_00)} and CJK: ${String.fromCodePoint(0x4E_2D)}${String.fromCodePoint(0x65_87)}`,
+		'tabs\tand\nnewlines\rand separators',
+		'0.5s 1.5h #42 100%',
+	];
+
+	for (const sample of samples) {
+		assert.equal(sample.replaceAll(ansiRegex(), ''), sample, JSON.stringify(sample));
+	}
+});
+
+// No code point is an escape sequence on its own, so every one of them must survive.
+test('leaves every lone code point untouched', () => {
+	const altered = [];
+
+	for (let codePoint = 0; codePoint <= 0x10_FF_FF; codePoint++) {
+		// Lone surrogates are not characters.
+		if (codePoint >= 0xD8_00 && codePoint <= 0xDF_FF) {
+			continue;
+		}
+
+		const character = String.fromCodePoint(codePoint);
+		if (character.replaceAll(ansiRegex(), '') !== character) {
+			altered.push(codePoint.toString(16));
+		}
+	}
+
+	assert.deepEqual(altered, []);
+});
+
+// Whatever a sequence strips to must be stable under a second strip.
+test('stripping is idempotent', () => {
+	const sequences = [
+		ESCAPE + '[31m',
+		ESCAPE + '[38;2;255;131;0m',
+		ESCAPE + '[38:5:196m',
+		ESCAPE + '[2K',
+		ESCAPE + '[A',
+		ESCAPE + ']0;a title' + BEL,
+		ESCAPE + ']8;;https://example.com' + STRING_TERMINATOR,
+		ESCAPE + '[1;2;3;4;5H',
+	];
+
+	for (const sequence of sequences) {
+		const once = sequence.replaceAll(ansiRegex(), '');
+		assert.equal(once.replaceAll(ansiRegex(), ''), once, JSON.stringify(sequence));
+	}
+});
+
+// Only the sequence itself may be removed, never the text around it.
+test('preserves the text around a sequence', () => {
+	assert.equal(('before' + ESCAPE + '[31mafter').replaceAll(ansiRegex(), ''), 'beforeafter');
+	assert.equal(('a' + ESCAPE + '[1mb' + ESCAPE + '[0mc').replaceAll(ansiRegex(), ''), 'abc');
+	assert.equal(('x' + ESCAPE + ']0;t' + BEL + 'y').replaceAll(ansiRegex(), ''), 'xy');
 });

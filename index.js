@@ -12,7 +12,13 @@ export default function ansiRegex({onlyFirst = false} = {}) {
 	// parameter digit as the final byte instead, leaving the real one behind as visible text. `ESC [ 5 d` stripped to a bare `d`.
 	const csi = String.raw`[\u001B\u009B][[\]()#;?]*(?:\d{1,4}(?:[;:]\d{0,4})*)?[A-PR-TZcf-nq-uy=><~]`;
 
-	const pattern = `${osc}|${csi}`;
+	// `= < >` are final bytes in the two byte VT52 escapes (`ESC >`) but parameter bytes in a CSI
+	// (`ESC [ > 0 ; 276 ; 0 c`, the device attributes reply). Matching them as a final byte always
+	// wins and leaves the rest of the reply behind as visible text, so the private parameter form is
+	// matched first, where the `[` makes the two unambiguous.
+	const csiPrivate = String.raw`(?:\u001B\[|\u009B)[<=>][0-9;:]*[A-PR-TZcf-nq-uy~]`;
+
+	const pattern = `${osc}|${csiPrivate}|${csi}`;
 
 	return new RegExp(pattern, onlyFirst ? undefined : 'g');
 }
