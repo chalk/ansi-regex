@@ -209,10 +209,10 @@ export const otherCode = new Map([
 	['#6', ['Double width, single height letters', 'DECDWL']],
 	['#8', ['Screen alignment display', 'DECALN']],
 
-	['5n', ['Device status report', 'DSR']],
-	['0n', ['Response: terminal is OK', 'DSR']],
-	['3n', ['Response: terminal is not OK', 'DSR']],
-	['6n', ['Get cursor position', 'DSR']],
+	['[5n', ['Device status report', 'DSR']],
+	['[0n', ['Response: terminal is OK', 'DSR']],
+	['[3n', ['Response: terminal is not OK', 'DSR']],
+	['[6n', ['Get cursor position', 'DSR']],
 ]);
 
 // `urxvt` escapes

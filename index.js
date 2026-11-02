@@ -18,7 +18,11 @@ export default function ansiRegex({onlyFirst = false} = {}) {
 	// matched first, where the `[` makes the two unambiguous.
 	const csiPrivate = String.raw`(?:\u001B\[|\u009B)[<=>][0-9;:]*[A-PR-TZcf-nq-uy~]`;
 
-	const pattern = `${osc}|${csiPrivate}|${csi}`;
+	// Escapes whose final byte is a digit: `ESC 7` and `ESC 8` (save and restore cursor), `ESC ( 0` (line drawing character set), `ESC # 8` (screen alignment).
+	// A digit is never a CSI final byte, so they need their own form. It is matched before the CSI form so that `ESC 7 l` is read as the escape followed by text, not as a CSI with parameter 7 and final byte `l`.
+	const digitFinal = String.raw`\u001B[()*+#]?\d`;
+
+	const pattern = `${osc}|${csiPrivate}|${digitFinal}|${csi}`;
 
 	return new RegExp(pattern, onlyFirst ? undefined : 'g');
 }

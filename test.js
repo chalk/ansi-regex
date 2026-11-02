@@ -204,29 +204,19 @@ test('an OSC sequence does not consume a later sequence after an unexpected C1 i
 	assert.equal(inputString.replace(ansiRegex(), ''), '\u{001B}]:payload');
 });
 
-// Testing against extended codes (excluding codes ending in 0-9)
+// Testing against extended codes
 for (const [codeSetKey, codeSetValue] of Object.entries(ansiCodes)) {
 	for (const [code, codeInfo] of codeSetValue) {
-		const shouldSkip = /\d$/v.test(code);
-		const skipText = shouldSkip ? '[SKIP] ' : '';
 		const ecode = `\u{001B}${code}`;
 
-		test(`${codeSetKey} - ${skipText}${code} → ${codeInfo[0]}`, () => {
-			if (shouldSkip) {
-				return;
-			}
-
+		test(`${codeSetKey} - ${code} → ${codeInfo[0]}`, () => {
 			const string = `hel${ecode}lo`;
 			assert.match(string, ansiRegex());
 			assert.equal(string.match(ansiRegex())[0], ecode);
 			assert.equal(string.replace(ansiRegex(), ''), 'hello');
 		});
 
-		test(`${codeSetKey} - ${skipText}${code} should not overconsume`, () => {
-			if (shouldSkip) {
-				return;
-			}
-
+		test(`${codeSetKey} - ${code} should not overconsume`, () => {
 			for (const character of consumptionCharacters) {
 				const string = ecode + character;
 				assert.match(string, ansiRegex());
@@ -404,4 +394,13 @@ test('preserves the text around a sequence', () => {
 	assert.equal(('before' + ESCAPE + '[31mafter').replaceAll(ansiRegex(), ''), 'beforeafter');
 	assert.equal(('a' + ESCAPE + '[1mb' + ESCAPE + '[0mc').replaceAll(ansiRegex(), ''), 'abc');
 	assert.equal(('x' + ESCAPE + ']0;t' + BEL + 'y').replaceAll(ansiRegex(), ''), 'xy');
+});
+
+// `ESC 7` and `ESC ( 0` end in a digit, which is never a CSI final byte, so they need their own form. They must also not be read as a CSI with the digit as a parameter, which ate the next letter: `hel ESC 7 lo` stripped to `helo`.
+test('strips an escape whose final byte is a digit', () => {
+	for (const code of [`${ESCAPE}7`, `${ESCAPE}8`, `${ESCAPE}(0`, `${ESCAPE})0`, `${ESCAPE}#8`]) {
+		assert.equal(`hel${code}lo`.replaceAll(ansiRegex(), ''), 'hello', JSON.stringify(code));
+		assert.equal(`${code}${ESCAPE}[31mX`.replaceAll(ansiRegex(), ''), 'X', JSON.stringify(code));
+		assert.equal(`a${code} b`.replaceAll(ansiRegex(), ''), 'a b', JSON.stringify(code));
+	}
 });
